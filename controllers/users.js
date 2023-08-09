@@ -43,9 +43,7 @@ module.exports.getUserById = (req, res) => {
 
 module.exports.editUserData = (req, res) => {
   const { name, about } = req.body;
-  // eslint-disable-next-line no-underscore-dangle
   if (req.user._id) {
-    // eslint-disable-next-line no-underscore-dangle
     User.findByIdAndUpdate(req.user._id, { name, about }, { new: 'true', runValidators: true })
       .then((user) => res.send(user))
       .catch((err) => {
@@ -61,9 +59,7 @@ module.exports.editUserData = (req, res) => {
 };
 
 module.exports.editUserAvatar = (req, res) => {
-  // eslint-disable-next-line no-underscore-dangle
   if (req.user._id) {
-    // eslint-disable-next-line no-underscore-dangle
     User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: 'true', runValidators: true })
       .then((user) => res.send(user))
       .catch((err) => {
