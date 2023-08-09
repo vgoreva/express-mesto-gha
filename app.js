@@ -23,4 +23,8 @@ app.use((req, res, next) => {
 app.use('/users', routesUsers);
 app.use('/cards', routesCards);
 
+app.use('*', (req, res) => {
+  res.status(404).send({ message: 'Страница не найденаю' });
+});
+
 app.listen(PORT);
