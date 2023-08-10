@@ -8,7 +8,6 @@ const NotImlemented = 500;
 
 module.exports.addCard = (req, res) => {
   const { name, link } = req.body;
-  // eslint-disable-next-line no-underscore-dangle
   Card.create({ name, link, owner: req.user._id })
     .then((card) => {
       res.status(Created).send(card);
