@@ -11,10 +11,10 @@ module.exports.addUser = (req, res) => {
   User.create({ name, about, avatar })
     .then((user) => res.status(Created).send(user))
     .catch((err) => {
-      if (err instanceof mongoose.Error.CastError) {
-        res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
-      } else {
+      if (err instanceof mongoose.Error.ValidationError) {
         res.status(BadRequest).send({ message: 'Переданы некорректные данные при создании пользователя.' });
+      } else {
+        res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -26,19 +26,21 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  if (req.params.userId.length === 24) {
-    User.findById(req.params.userId)
-      .then((user) => {
-        if (!user) {
-          res.status(NotFound).send({ message: 'Пользователь по указанному _id не найден.' });
-          return;
-        }
-        res.send(user);
-      })
-      .catch(() => res.status(NotFound).send({ message: 'Пользователь по указанному _id не найден.' }));
-  } else {
-    res.status(BadRequest).send({ message: 'Передан некоректный _id.' });
-  }
+  User.findById(req.params.userId)
+    .then((user) => {
+      if (!user) {
+        res.status(NotFound).send({ message: 'Пользователь по указанному _id не найден.' });
+        return;
+      }
+      res.send(user);
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(BadRequest).send({ message: 'Передан некоректный _id.' });
+      } else {
+        res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
+      }
+    });
 };
 
 module.exports.editUserData = (req, res) => {
@@ -47,10 +49,10 @@ module.exports.editUserData = (req, res) => {
     User.findByIdAndUpdate(req.user._id, { name, about }, { new: 'true', runValidators: true })
       .then((user) => res.send(user))
       .catch((err) => {
-        if (err instanceof mongoose.Error.CastError) {
-          res.status(NotFound).send({ message: 'Пользователь с указанным _id не найден. ' });
-        } else {
+        if (err instanceof mongoose.Error.ValidationError) {
           res.status(BadRequest).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
+        } else {
+          res.status(NotFound).send({ message: 'Пользователь с указанным _id не найден. ' });
         }
       });
   } else {
@@ -63,10 +65,10 @@ module.exports.editUserAvatar = (req, res) => {
     User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: 'true', runValidators: true })
       .then((user) => res.send(user))
       .catch((err) => {
-        if (err instanceof mongoose.Error.CastError) {
-          res.status(NotFound).send({ message: 'Пользователь с указанным _id не найден. ' });
-        } else {
+        if (err instanceof mongoose.Error.ValidationError) {
           res.status(BadRequest).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
+        } else {
+          res.status(NotFound).send({ message: 'Пользователь с указанным _id не найден. ' });
         }
       });
   } else {

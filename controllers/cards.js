@@ -14,10 +14,10 @@ module.exports.addCard = (req, res) => {
       res.status(Created).send(card);
     })
     .catch((err) => {
-      if (err instanceof mongoose.Error.CastError) {
-        res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
-      } else {
+      if (err instanceof mongoose.Error.ValidationError) {
         res.status(BadRequest).send({ message: 'Переданы некорректные данные при создании карточки.' });
+      } else {
+        res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -56,10 +56,10 @@ module.exports.likeCard = (req, res) => {
         res.send(card);
       })
       .catch((err) => {
-        if (err instanceof mongoose.Error.CastError) {
-          res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
-        } else {
+        if (err instanceof mongoose.Error.ValidationError) {
           res.status(BadRequest).send({ message: 'Передан несуществующий _id карточки.' });
+        } else {
+          res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
         }
       });
   } else {
@@ -79,10 +79,10 @@ module.exports.dislikeCard = (req, res) => {
         res.send(card);
       })
       .catch((err) => {
-        if (err instanceof mongoose.Error.CastError) {
-          res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
-        } else {
+        if (err instanceof mongoose.Error.ValidationError) {
           res.status(BadRequest).send({ message: 'Передан несуществующий _id карточки.' });
+        } else {
+          res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
         }
       });
   } else {
