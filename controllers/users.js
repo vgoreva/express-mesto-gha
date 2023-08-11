@@ -38,7 +38,7 @@ module.exports.getUserById = (req, res) => {
       if (err.name === 'CastError') {
         res.status(BadRequest).send({ message: 'Передан некоректный _id.' });
       } else {
-        res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
+        res.status(NotImlemented).send({ message: 'На сервере произошла ошибка.' });
       }
     });
 };
@@ -52,7 +52,7 @@ module.exports.editUserData = (req, res) => {
         if (err instanceof mongoose.Error.ValidationError) {
           res.status(BadRequest).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
         } else {
-          res.status(NotFound).send({ message: 'Пользователь с указанным _id не найден. ' });
+          res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
         }
       });
   } else {
@@ -68,7 +68,7 @@ module.exports.editUserAvatar = (req, res) => {
         if (err instanceof mongoose.Error.ValidationError) {
           res.status(BadRequest).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
         } else {
-          res.status(NotFound).send({ message: 'Пользователь с указанным _id не найден. ' });
+          res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
         }
       });
   } else {
