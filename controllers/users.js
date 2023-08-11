@@ -56,7 +56,7 @@ module.exports.editUserData = (req, res) => {
         }
       });
   } else {
-    res.status(BadRequest).send({ message: 'Передан некоректный _id.' });
+    res.status(BadRequest).send({ message: 'Пользователь с указанным _id не найден. ' });
   }
 };
 
@@ -66,12 +66,12 @@ module.exports.editUserAvatar = (req, res) => {
       .then((user) => res.send(user))
       .catch((err) => {
         if (err instanceof mongoose.Error.ValidationError) {
-          res.status(BadRequest).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
+          res.status(BadRequest).send({ message: 'Переданы некорректные данные при обновлении аватара.' });
         } else {
           res.status(NotImlemented).send({ message: 'На сервере произошла ошибка' });
         }
       });
   } else {
-    res.status(BadRequest).send({ message: 'Передан некоректный _id.' });
+    res.status(BadRequest).send({ message: 'Пользователь с указанным _id не найден.' });
   }
 };
