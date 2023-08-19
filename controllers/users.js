@@ -8,7 +8,6 @@ const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 const UnauthorisedError = require('../errors/UnauthorisedError');
 
-
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.status(HTTP_STATUS_OK).send(users))
