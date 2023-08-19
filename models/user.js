@@ -50,13 +50,13 @@ userSchema.statics.findByCredentials = function findByCredentials(email, passwor
     .select('+password')
     .then((user) => {
       if (!user) {
-        throw new ForbiddenError('Пользователь не найден');
+        throw new UnauthorizedError('Пользователь не найден');
       }
 
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new UnauthorizedError('Неправильная почта или пароль');
+            throw new ForbiddenError('Неправильная почта или пароль');
           }
 
           return user;
