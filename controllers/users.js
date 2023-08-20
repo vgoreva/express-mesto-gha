@@ -6,6 +6,7 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
+const UnauthorisedError = require('../errors/UnauthorisedError');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -92,7 +93,11 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch((err) => {
-      next(err);
+      if (err.code === 401) {
+        next(new UnauthorisedError('неверные данные для авторизации'));
+      } else {
+        next(err);
+      }
     });
 };
 
