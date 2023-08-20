@@ -50,7 +50,8 @@ module.exports.addUser = (req, res, next) => {
           } else {
             next(err);
           }
-        });
+        })
+        .catch(next);
     });
 };
 
